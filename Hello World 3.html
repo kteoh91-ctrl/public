@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello World — 70s Funk</title>
+<template id="__bundler_thumbnail" data-bg-color="#f4b41a">
+<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+<rect width="120" height="80" fill="#f4b41a"/>
+<circle cx="60" cy="40" r="26" fill="#ff6f1f"/>
+<text x="60" y="48" font-family="Georgia,serif" font-style="italic" font-size="18" font-weight="bold" text-anchor="middle" fill="#f5e6c8">Hello!</text>
+</svg>
+</template>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Monoton&family=Rubik+Mono+One&family=Shrikhand&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#ff6f1f; --mustard:#f4b41a; --rust:#c1440e;
+    --avocado:#8a9a3b; --cream:#f5e6c8; --brown:#5a2a0c; --pink:#e8407a; --teal:#2a8a8a;
+  }
+  html,body{margin:0;height:100%;background:#000;color:#fff;overflow:hidden;font-family:'Shrikhand',serif}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#1a0a00}
+  #deck{width:1920px;height:1080px;transform-origin:center;flex-shrink:0;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;display:none;padding:90px;box-sizing:border-box;flex-direction:column;overflow:hidden}
+  .slide.active{display:flex}
+
+  /* === backgrounds === */
+  .bg-rays{background:var(--mustard)}
+  .bg-rays::before{content:"";position:absolute;inset:-50%;background:
+    repeating-conic-gradient(from 0deg at 50% 50%,
+      var(--orange) 0deg 15deg, var(--mustard) 15deg 30deg);
+    animation:spin 40s linear infinite;z-index:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .bg-dots{background:var(--rust)}
+  .bg-dots::before{content:"";position:absolute;inset:0;background-image:
+    radial-gradient(circle, var(--cream) 18px, transparent 19px),
+    radial-gradient(circle, var(--mustard) 14px, transparent 15px);
+    background-size:160px 160px,160px 160px;
+    background-position:0 0,80px 80px;
+    animation:drift 8s ease-in-out infinite alternate;z-index:0}
+  @keyframes drift{to{background-position:40px 20px,120px 100px}}
+
+  .bg-waves{background:linear-gradient(180deg,#ff8f3a 0%,var(--orange) 30%,var(--rust) 60%,var(--brown) 100%)}
+  .bg-waves::before{content:"";position:absolute;inset:0;background:
+    repeating-linear-gradient(180deg,transparent 0 80px,rgba(0,0,0,.15) 80px 84px);z-index:0}
+
+  .bg-checker{background:var(--avocado)}
+  .bg-checker::before{content:"";position:absolute;inset:0;background:
+    conic-gradient(var(--cream) 25%, var(--brown) 0 50%, var(--cream) 0 75%, var(--brown) 0);
+    background-size:160px 160px;opacity:.85;z-index:0}
+
+  .bg-flower{background:var(--pink)}
+  .bg-flower::before{content:"";position:absolute;inset:0;background-image:
+    radial-gradient(ellipse 80px 30px at center, var(--mustard) 99%, transparent 100%),
+    radial-gradient(ellipse 30px 80px at center, var(--mustard) 99%, transparent 100%),
+    radial-gradient(circle 35px at center, var(--orange) 99%, transparent 100%);
+    background-size:200px 200px;background-repeat:repeat;animation:wob 6s ease-in-out infinite;z-index:0}
+  @keyframes wob{50%{background-position:30px 30px,30px 30px,30px 30px}}
+
+  .bg-disco{background:radial-gradient(circle at 50% 30%, var(--mustard), var(--orange) 40%, var(--rust) 80%, var(--brown))}
+
+  .slide > *{position:relative;z-index:2}
+
+  /* === type === */
+  .funk{font-family:'Shrikhand',serif;font-style:italic}
+  .bubble{font-family:'Bungee Shade',cursive}
+  .neon{font-family:'Monoton',cursive}
+  .chunk{font-family:'Rubik Mono One',sans-serif}
+
+  h1.title{font-family:'Shrikhand',serif;font-style:italic;font-size:240px;line-height:.85;margin:0;
+    color:var(--cream);text-shadow:
+      6px 6px 0 var(--brown),
+      12px 12px 0 var(--orange),
+      18px 18px 0 var(--rust),
+      24px 24px 0 var(--brown);
+    transform:rotate(-4deg)}
+
+  .big{font-size:120px;line-height:1}
+  .mid{font-size:72px;line-height:1.1}
+  .sm{font-size:48px;line-height:1.3}
+
+  .wave-text span{display:inline-block;animation:wave 2s ease-in-out infinite}
+  .wave-text span:nth-child(2){animation-delay:.1s}
+  .wave-text span:nth-child(3){animation-delay:.2s}
+  .wave-text span:nth-child(4){animation-delay:.3s}
+  .wave-text span:nth-child(5){animation-delay:.4s}
+  .wave-text span:nth-child(6){animation-delay:.5s}
+  .wave-text span:nth-child(7){animation-delay:.6s}
+  .wave-text span:nth-child(8){animation-delay:.7s}
+  .wave-text span:nth-child(9){animation-delay:.8s}
+  .wave-text span:nth-child(10){animation-delay:.9s}
+  .wave-text span:nth-child(11){animation-delay:1s}
+  .wave-text span:nth-child(12){animation-delay:1.1s}
+  @keyframes wave{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-40px) rotate(4deg)}}
+
+  .center{align-items:center;justify-content:center;text-align:center}
+
+  /* === decorative bits === */
+  .badge{display:inline-block;font-family:'Shrikhand',serif;font-size:48px;
+    background:var(--cream);color:var(--rust);padding:18px 40px;border-radius:60px;
+    border:8px solid var(--brown);box-shadow:10px 10px 0 var(--brown);
+    transform:rotate(-3deg);font-style:italic}
+
+  .vinyl{width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,
+      var(--orange) 0 60px, #111 62px 64px,
+      #1a1a1a 64px 70px, #111 70px 72px,
+      #1a1a1a 72px 90px, #111 90px 92px,
+      #1a1a1a 92px 130px, #111 130px 132px,
+      #1a1a1a 132px 180px, #111 180px 182px,
+      #1a1a1a 182px 240px, #111 240px 242px,
+      #1a1a1a 242px);
+    box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 0 60px rgba(0,0,0,.6);
+    position:relative;animation:spin 4s linear infinite}
+  .vinyl::after{content:"";position:absolute;inset:46% 46% 46% 46%;background:var(--mustard);border-radius:50%;border:3px solid var(--brown)}
+
+  .lava{position:absolute;border-radius:50%;filter:blur(2px);mix-blend-mode:screen}
+
+  /* peace sign */
+  .peace{width:300px;height:300px;border:18px solid var(--cream);border-radius:50%;position:relative;
+    background:var(--avocado);animation:pulse 2s ease-in-out infinite}
+  .peace::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:18px;background:var(--cream);transform:translateX(-50%)}
+  .peace::after{content:"";position:absolute;left:50%;top:50%;width:200px;height:18px;background:var(--cream);
+    transform-origin:left center;transform:translate(-50%,0) rotate(0);
+    box-shadow:0 0 0 0 var(--cream);
+    /* fake the V using two divs would be nicer; using clip */}
+  .peace .v{position:absolute;left:50%;top:50%;width:18px;height:160px;background:var(--cream);transform-origin:top center}
+  .peace .v.l{transform:translate(-50%,0) rotate(45deg)}
+  .peace .v.r{transform:translate(-50%,0) rotate(-45deg)}
+  @keyframes pulse{50%{transform:scale(1.08) rotate(10deg)}}
+
+  /* tape */
+  .tape{background:var(--cream);color:var(--brown);padding:50px 70px;border-radius:20px;
+    box-shadow:14px 14px 0 var(--brown);transform:rotate(-2deg);max-width:1400px}
+
+  /* track list */
+  .tracks{font-family:'Shrikhand',serif;font-size:64px;color:var(--cream);text-align:left}
+  .tracks li{margin:18px 0;list-style:none;display:flex;gap:40px;align-items:baseline}
+  .tracks .num{color:var(--mustard);font-family:'Rubik Mono One';font-size:48px;width:100px}
+
+  .footer{position:absolute;bottom:30px;left:0;right:0;text-align:center;font-size:32px;color:var(--brown);font-family:'Rubik Mono One';letter-spacing:6px;z-index:3}
+
+  /* nav */
+  #nav{position:fixed;bottom:18px;right:18px;display:flex;gap:10px;z-index:99}
+  #nav.hide{opacity:0;pointer-events:none}
+  #nav button{font-family:'Shrikhand',serif;font-style:italic;font-size:22px;background:var(--orange);color:var(--cream);
+    border:4px solid var(--brown);padding:12px 22px;border-radius:30px;cursor:pointer;box-shadow:4px 4px 0 var(--brown)}
+  #nav button:hover{background:var(--mustard);color:var(--brown)}
+
+  /* groove bouncing letters */
+  .groove span{display:inline-block;animation:groove 1.6s ease-in-out infinite}
+  .groove span:nth-child(odd){color:var(--mustard)}
+  .groove span:nth-child(even){color:var(--cream);animation-delay:.4s}
+  @keyframes groove{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.15)}}
+
+  .floaty{animation:floaty 5s ease-in-out infinite}
+  @keyframes floaty{50%{transform:translateY(-30px) rotate(3deg)}}
+
+  /* lava blobs animations */
+  @keyframes lava1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-60px) scale(1.2)}}
+  @keyframes lava2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-100px,80px) scale(1.3)}}
+
+  .stripes{position:absolute;inset:0;background:repeating-linear-gradient(45deg,
+    var(--orange) 0 80px,var(--mustard) 80px 160px,var(--rust) 160px 240px,var(--avocado) 240px 320px);
+    z-index:0}
+
+  /* sun */
+  .sun{width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,#fff080 0%,var(--mustard) 30%,var(--orange) 70%,var(--rust) 100%);
+    box-shadow:0 0 120px var(--mustard),0 0 240px var(--orange);
+    position:absolute;left:50%;top:55%;transform:translate(-50%,-50%)}
+  .sun::before{content:"";position:absolute;inset:-200px;border-radius:50%;
+    background:conic-gradient(transparent 0 5deg, var(--mustard) 5deg 10deg, transparent 10deg 20deg);
+    animation:spin 30s linear infinite;z-index:-1;mix-blend-mode:multiply;opacity:.5}
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+
+  <!-- 1 -->
+  <section class="slide bg-rays center active" data-screen-label="01 Title">
+    <div class="sun"></div>
+    <h1 class="title floaty" style="z-index:3">Hello,<br>World!</h1>
+    <div class="badge" style="margin-top:80px">★ a far-out presentation ★</div>
+    <div class="footer">FUNK · LOVE · PEACE · 1974</div>
+  </section>
+
+  <!-- 2 wave hello -->
+  <section class="slide bg-dots center" data-screen-label="02 Wave">
+    <div class="bubble" style="font-size:240px;color:var(--cream);text-shadow:10px 10px 0 var(--brown)">
+      <span class="wave-text">
+        <span>H</span><span>E</span><span>L</span><span>L</span><span>O</span><span>!</span>
+      </span>
+    </div>
+    <div class="mid funk" style="margin-top:40px;color:var(--cream)">can you dig it?</div>
+  </section>
+
+  <!-- 3 vinyl -->
+  <section class="slide bg-waves" data-screen-label="03 Vinyl">
+    <div style="display:flex;align-items:center;gap:120px;height:100%;justify-content:center">
+      <div class="vinyl"></div>
+      <div>
+        <div class="chunk" style="font-size:48px;color:var(--mustard);letter-spacing:8px">SIDE A · 33⅓</div>
+        <h2 class="funk" style="font-size:140px;color:var(--cream);margin:20px 0;line-height:.9;text-shadow:8px 8px 0 var(--brown)">Greetings<br>from the<br>code disco</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 lava lamp -->
+  <section class="slide bg-disco center" data-screen-label="04 Lava">
+    <div style="position:absolute;inset:0;overflow:hidden;z-index:1">
+      <div class="lava" style="width:400px;height:400px;background:var(--pink);left:20%;top:20%;animation:lava1 7s ease-in-out infinite"></div>
+      <div class="lava" style="width:500px;height:500px;background:var(--orange);right:15%;top:40%;animation:lava2 9s ease-in-out infinite"></div>
+      <div class="lava" style="width:300px;height:300px;background:var(--mustard);left:50%;bottom:10%;animation:lava1 6s ease-in-out infinite"></div>
+    </div>
+    <div class="bubble groove" style="font-size:200px;color:var(--cream);z-index:3">
+      <span>F</span><span>U</span><span>N</span><span>K</span><span>Y</span>
+    </div>
+    <div class="mid funk" style="color:var(--cream);margin-top:30px;z-index:3">// the vibes are immaculate</div>
+  </section>
+
+  <!-- 5 track list -->
+  <section class="slide bg-checker" data-screen-label="05 Tracks">
+    <div class="tape" style="margin:auto">
+      <div class="chunk" style="font-size:32px;color:var(--orange);letter-spacing:6px">★ TONIGHT'S SET LIST ★</div>
+      <h2 class="funk" style="font-size:110px;margin:10px 0 30px;color:var(--brown)">The Agenda</h2>
+      <ul class="tracks" style="color:var(--brown)">
+        <li><span class="num">A1</span> Say Hello (Get Down Mix)</li>
+        <li><span class="num">A2</span> World on a String</li>
+        <li><span class="num">B1</span> Boogie Oogie Bug Fix</li>
+        <li><span class="num">B2</span> Goodbye Groove</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6 peace -->
+  <section class="slide bg-flower center" data-screen-label="06 Outro">
+    <div class="floaty"><div class="peace"><div class="v l"></div><div class="v r"></div></div></div>
+    <h2 class="title" style="font-size:180px;margin-top:40px">Peace.<br>Out.</h2>
+    <div class="badge" style="margin-top:40px">thanks for groovin' ♥</div>
+  </section>
+
+</div></div>
+
+<div id="nav" data-noncommentable>
+  <button onclick="go(-1)">◄ back</button>
+  <button onclick="go(1)">forward ►</button>
+</div>
+
+<script>
+const W=1920,H=1080,stage=document.getElementById('stage'),deck=document.getElementById('deck');
+function resize(){const s=Math.min(stage.clientWidth/W,stage.clientHeight/H);deck.style.transform='scale('+s+')'}
+new ResizeObserver(resize).observe(stage);resize();
+const slides=[...document.querySelectorAll('.slide')];
+let i=+localStorage.getItem('hw70_i')||0;if(i>=slides.length||i<0)i=0;
+function show(){slides.forEach((s,k)=>s.classList.toggle('active',k===i));localStorage.setItem('hw70_i',i)}
+function go(d){i=(i+d+slides.length)%slides.length;show()}
+show();
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);else if(e.key==='ArrowLeft')go(-1)});
+// click anywhere (not nav) to advance
+deck.addEventListener('click',()=>go(1));
+</script>
+</body></html>
