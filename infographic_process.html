@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Bean to Cup: The Journey of Specialty Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background: linear-gradient(135deg, #f5f1ec 0%, #faf8f5 100%);
+            color: #3d3d3d;
+            padding: 60px 0;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .header h1 {
+            font-family: 'Bitter', serif;
+            font-size: 48px;
+            color: #8b6f47;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #a89968;
+            font-style: italic;
+        }
+
+        /* Three-column grid layout */
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 0 40px;
+            position: relative;
+            align-items: flex-start;
+        }
+
+        /* Central vertical spine via ::before pseudo-element */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #c9a876 0%, #d4b896 50%, #c9a876 100%);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            display: contents;
+        }
+
+        /* Odd steps (left side) */
+        .step:nth-child(odd) .step-content {
+            grid-column: 1;
+            text-align: right;
+            padding-right: 30px;
+        }
+
+        /* Even steps (right side) */
+        .step:nth-child(even) .step-content {
+            grid-column: 3;
+            text-align: left;
+            padding-left: 30px;
+        }
+
+        /* Numbered circle markers overlapping spine */
+        .step-marker {
+            grid-column: 2;
+            width: 60px;
+            height: 60px;
+            background: #f5f1ec;
+            border: 4px solid #c9a876;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bitter', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #8b6f47;
+            position: relative;
+            z-index: 10;
+            margin: 20px 0;
+        }
+
+        /* Card styling */
+        .step-content {
+            position: relative;
+            padding: 30px 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(139, 111, 71, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .step-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(139, 111, 71, 0.15);
+        }
+
+        /* Dashed border separator */
+        .step-content {
+            border-top: 2px dashed #d4b896;
+        }
+
+        .step-content:first-of-type {
+            border-top: none;
+        }
+
+        /* CSS-triangle speech-bubble arrows pointing toward spine */
+        .step:nth-child(odd) .step-content::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            z-index: 5;
+        }
+
+        .step:nth-child(even) .step-content::after {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border-right: 20px solid white;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            z-index: 5;
+        }
+
+        .step-number {
+            font-family: 'Bitter', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #8b6f47;
+            margin-bottom: 10px;
+        }
+
+        .step-title {
+            font-family: 'Bitter', serif;
+            font-size: 28px;
+            color: #5a4a3a;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .step-description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        /* Emoji illustration in rounded tiles */
+        .step-emoji {
+            display: inline-block;
+            font-size: 48px;
+            background: linear-gradient(135deg, #e8d7c3 0%, #f0e4d4 100%);
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 16px 0;
+            box-shadow: 0 4px 12px rgba(139, 111, 71, 0.12);
+        }
+
+        /* Stat pill badges within cards */
+        .stat-pill {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4b896 0%, #c9a876 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-container {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(139, 111, 71, 0.08);
+        }
+
+        .footer h3 {
+            font-family: 'Bitter', serif;
+            font-size: 24px;
+            color: #8b6f47;
+            margin-bottom: 12px;
+        }
+
+        .footer p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Responsive considerations */
+        @media (max-width: 900px) {
+            .container {
+                width: 95%;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>From Bean to Cup</h1>
+            <p>The Journey of Specialty Coffee ☕</p>
+        </div>
+
+        <div class="timeline">
+            <!-- Step 1: Sourcing -->
+            <div class="step">
+                <div class="step-marker">1</div>
+                <div class="step-content">
+                    <div class="step-number">Step One</div>
+                    <div class="step-title">Sourcing</div>
+                    <div class="step-emoji">🌱</div>
+                    <div class="step-description">
+                        The journey begins in lush coffee plantations across the equatorial belt. Expert sourcing specialists seek out the finest single-origin beans, evaluating altitude, soil composition, and climate conditions to ensure exceptional quality.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">2000+ ORIGINS</span>
+                        <span class="stat-pill">70 COUNTRIES</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Roasting -->
+            <div class="step">
+                <div class="step-marker">2</div>
+                <div class="step-content">
+                    <div class="step-number">Step Two</div>
+                    <div class="step-title">Roasting</div>
+                    <div class="step-emoji">🔥</div>
+                    <div class="step-description">
+                        Raw green beans transform through precise heat application. Master roasters carefully monitor temperature and time to unlock the beans' hidden flavors—creating the perfect balance between acidity, body, and aroma.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">150-200°C</span>
+                        <span class="stat-pill">12-15 MIN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Grinding -->
+            <div class="step">
+                <div class="step-marker">3</div>
+                <div class="step-content">
+                    <div class="step-number">Step Three</div>
+                    <div class="step-title">Grinding</div>
+                    <div class="step-emoji">⚙️</div>
+                    <div class="step-description">
+                        The freshly roasted beans are ground to the optimal particle size for your chosen brewing method. Consistency in grind size determines extraction efficiency and the final cup's clarity and complexity.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">WITHIN 15 MIN</span>
+                        <span class="stat-pill">BURST AROMA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Brewing -->
+            <div class="step">
+                <div class="step-marker">4</div>
+                <div class="step-content">
+                    <div class="step-number">Step Four</div>
+                    <div class="step-title">Brewing</div>
+                    <div class="step-emoji">💧</div>
+                    <div class="step-description">
+                        Water meets ground coffee in a carefully choreographed dance. Temperature, timing, and technique combine to extract the desired flavors—whether through pour-over precision, immersion, or espresso pressure.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">195-205°F</span>
+                        <span class="stat-pill">4:1 RATIO</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Tasting -->
+            <div class="step">
+                <div class="step-marker">5</div>
+                <div class="step-content">
+                    <div class="step-number">Step Five</div>
+                    <div class="step-title">Tasting</div>
+                    <div class="step-emoji">👃</div>
+                    <div class="step-description">
+                        The moment of truth arrives. Cupping specialists and enthusiasts alike savor the aromatic complexity, assess the acidity and sweetness, and experience the lingering finish that distinguishes exceptional coffee from the ordinary.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">100+ FLAVORS</span>
+                        <span class="stat-pill">NOTES DETECTED</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Enjoying -->
+            <div class="step">
+                <div class="step-marker">6</div>
+                <div class="step-content">
+                    <div class="step-number">Step Six</div>
+                    <div class="step-title">Enjoying</div>
+                    <div class="step-emoji">☕</div>
+                    <div class="step-description">
+                        From farm to your favorite mug, the complete journey culminates in a moment of pure satisfaction. Each sip tells the story of distant mountains, skilled hands, and the art of coffee craftsmanship.
+                    </div>
+                    <div class="stat-container">
+                        <span class="stat-pill">PEAK FLAVOR</span>
+                        <span class="stat-pill">60 MINUTES</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>The Specialty Coffee Experience</h3>
+            <p>
+                Every cup of specialty coffee represents a commitment to quality from sourcing through to your morning ritual.
+                By understanding each step of this journey, you deepen your appreciation for the complexity and care that goes into every brew.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
